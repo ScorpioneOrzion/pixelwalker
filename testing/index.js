@@ -1,6 +1,6 @@
-import { BotClient } from "../index.js";
+import Client from "../index.js";
 
-const game = await BotClient.connection("djtqrcjn4fzyhi8")
+const game = await Client().connection("djtqrcjn4fzyhi8")
 
 game.listen("playerChatPacket", ({ playerId, message }) => {
 	switch (message) {

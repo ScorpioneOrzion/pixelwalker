@@ -1,0 +1,18 @@
+{
+	"name": "pixelwalker",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"start": "node start.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.4.5",
+		"pixelwalker.js": "^1.3.2"
+	}
+}

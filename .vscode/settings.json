@@ -1,0 +1,16 @@
+{
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"node_modules": true,
+		".vscode": true,
+		".gitignore": true,
+		"package.json": true,
+		"jsconfig.json": true,
+		"pnpm-lock.yaml": true
+	}
+}

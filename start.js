@@ -3,7 +3,8 @@ import fs from "fs"
 
 const botName = process.argv[2];
 
-function runScript(command: string, args: readonly string[]) {
+/** @param {string} command @param {readonly string[]} args */
+function runScript(command, args) {
 	const process = spawn(command, args, { stdio: "inherit" });
 
 	process.on("error", (err) => {
@@ -17,14 +18,14 @@ function runScript(command: string, args: readonly string[]) {
 }
 
 if (botName === undefined) {
-	runScript("ts-node", ["index.ts"]);
+	runScript("node", ["index.js"]);
 } else {
-	const botPath = `./${botName}/index.ts`;
+	const botPath = `./${botName}/index.js`;
 
 	if (!fs.existsSync(botPath)) {
 		console.error(`Bot '${botName}' not found.`);
 		process.exit(1);
 	}
 
-	runScript("ts-node", [botPath]);
+	runScript("node", [botPath]);
 }

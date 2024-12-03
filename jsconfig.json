@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"target": "es2022",
+		"module": "NodeNext",
+		"moduleResolution": "nodenext",
+		"esModuleInterop": true,
+	},
+	"include": [
+		"**/*.d.ts",
+		"**/*.js",
+	],
+	"exclude": [
+		"node_modules"
+	]
+}

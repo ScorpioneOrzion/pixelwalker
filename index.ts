@@ -87,7 +87,7 @@ type Change = {
 	extraFields: Uint8Array
 }
 
-export function createChangeSender(client: GameClient, maxItems = 600) {
+export function createPlacer(client: GameClient, maxItems = 600) {
 	return (changes: Change[]) => {
 		const groupedChanges: Map<string, {
 			blockId: number;

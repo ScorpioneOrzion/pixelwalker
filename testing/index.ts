@@ -1,7 +1,7 @@
-import Client, { createChangeSender, parse } from "../index.js";
+import Client, { createPlacer, parse } from "../index.js";
 
 const game = await Client("r88c52511042aec", 1)
-const placer = createChangeSender(game)
+const placer = createPlacer(game)
 
 game.listen("playerChatPacket", ({ playerId, message }) => {
 	const [command, ...args] = parse(message)

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { LobbyClient } from "pixelwalker.js";
+import { LobbyClient, Block } from "pixelwalker.js";
 const BotClient = await LobbyClient.withUsernamePassword(process.env.DIGBOT_EMAIL, process.env.DIGBOT_PASS);
 const OwnerClient = await LobbyClient.withUsernamePassword(process.env.OWNER_EMAIL, process.env.OWNER_PASS);
 if (!BotClient) {
@@ -19,8 +19,9 @@ const Client = (options, digit = 0) => {
 		return selectedClient.createUnsavedWorld(options); // Handle world creation with options
 	}
 };
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 export default Client;
-export function parse(message) {
+export function parseMessage(message) {
 	const result = [];
 	let current_word = "", inside_single_quote = false, inside_double_quote = false, i = 0;
 	while (i < message.length) {
@@ -60,7 +61,7 @@ export function createPlacer(client, maxItems = 600) {
 		const groupedChanges = new Map();
 		// Group changes by a unique key
 		changes.forEach(change => {
-			const key = `${change.layer}-${change.blockId}-${(change.extraFields).toString()}`;
+			const key = `${change.layer}-${change.blockId}-${(change.extraFields).toString()}-${change.fill}`;
 			if (!groupedChanges.has(key)) {
 				groupedChanges.set(key, {
 					blockId: change.blockId,
@@ -103,9 +104,54 @@ export function createPlacer(client, maxItems = 600) {
 					blockId: blockId,
 					extraFields: extraFields,
 				};
-				client.send("worldBlockPlacedPacket", payload);
+				client.send("worldBlockPlacedPacket", payload)
 			}
 		});
 	};
 }
-//# sourceMappingURL=index.js.map
+
+const processArray = arr => arr.flatMap(subArr => subArr.length === 1 ? subArr : Array.from({ length: subArr[1] - subArr[0] + 1 }, (_, i) => subArr[0] + i));
+
+
+function expandPosition(position) {
+	const result = [];
+	const [xPart, yPart] = position.split(',');
+	const xRange = processArray(xPart.split(':').map(x => x.split('-').map(Number)))
+	const yRange = processArray(yPart.split(':').map(y => y.split('-').map(Number)))
+
+	xRange.forEach(x => {
+		yRange.forEach(y => {
+			result.push({ x, y });
+		});
+	});
+
+	return result;
+}
+export function parseStructure(structure) {
+	const changes = []
+	const blocks = new Map()
+
+	structure.forEach((block) => {
+		block.positions.forEach(position => {
+			const expandedPositions = expandPosition(position)
+			const blockData = blocks.has(block.type) ?
+				blocks.get(block.type) :
+				new Block(block.type)
+			blocks.set(block.type, blockData)
+
+			expandedPositions.forEach(({ x, y }) => {
+				const change = {
+					x, y,
+					layer: block.layer,
+					blockId: blockData.id,
+					extraFields: new Uint8Array(block.extraFields ? block.extraFields : []),
+					fill: block.fill ? true : false
+				}
+
+				changes.push(change)
+			})
+		})
+	})
+
+	return changes
+}

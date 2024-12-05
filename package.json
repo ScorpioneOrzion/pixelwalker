@@ -13,7 +13,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"dotenv": "^16.4.7",
-		"pixelwalker.js": "^1.3.3"
+		"pixelwalker.js": "^1.3.5"
 	},
 	"devDependencies": {
 		"@types/node": "^22.10.1"

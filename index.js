@@ -61,7 +61,7 @@ export function createPlacer(client, maxItems = 600) {
 		const groupedChanges = new Map();
 		// Group changes by a unique key
 		changes.forEach(change => {
-			const key = `${change.layer}-${change.blockId}-${(change.extraFields).toString()}-${change.fill}`;
+			const key = `${change.layer}-${change.blockId}-${(change.extraFields).toString()}`;
 			if (!groupedChanges.has(key)) {
 				groupedChanges.set(key, {
 					blockId: change.blockId,
@@ -94,15 +94,13 @@ export function createPlacer(client, maxItems = 600) {
 		}
 		// Send grouped changes in chunks
 		groupedChanges.forEach(group => {
-			const { blockId, layer, extraFields, positions } = group;
+			const { positions } = group;
 			for (let i = 0; i < positions.length; i += maxItems) {
 				const chunk = positions.slice(i, i + maxItems);
 				const payload = {
+					...group,
 					positions: chunk.map(map),
-					layer: layer,
 					isFillOperation: false,
-					blockId: blockId,
-					extraFields: extraFields,
 				};
 				client.send("worldBlockPlacedPacket", payload)
 			}

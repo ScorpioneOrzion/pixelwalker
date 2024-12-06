@@ -26,7 +26,22 @@ async function createWorld(world_title = "New World") {
 
 	game.listen("playerInitPacket", (message) => {
 		placer(spaceShipStructure)
+		
+		game.send("playerResetPacket", {
+			position: { '$typeName': 'WorldPackets.PointInteger', x: 318, y: 15 }
+		})
 	})
+
+	let respawn = false;
+
+	// game.listen("playerJoinedPacket", () => {
+	// 	if (!respawn) {
+	// 		game.send("playerChatPacket", { message: "/resetplayer" })
+	// 		respawn = true
+	// 	}
+	// })
+
+	game.listen("playerResetPacket", console.log)
 
 	return game
 }

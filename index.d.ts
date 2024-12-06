@@ -19,5 +19,6 @@ type Structure = {
 	type: BlockName
 	positions: string[]
 	layer: 0 | 1
+    extraFields?: Uint8Array;
 }[]
 export declare function parseStructure(structure: Structure): Change[]

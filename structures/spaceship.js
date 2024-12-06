@@ -17,14 +17,6 @@ export default [
 		layer: 1
 	},
 	{
-		"type": "generic_black_transparent",
-		"positions": [
-			"0,41"
-		],
-		layer: 1,
-		fill: true,
-	},
-	{
 		"type": "outerspace_white",
 		"positions": [
 			"302-333,8:23", "299-336,13:18",
